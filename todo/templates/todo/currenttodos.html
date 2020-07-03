@@ -1,0 +1,17 @@
+<h1>Current Todos</h1>
+{% extends 'todo/base.html' %}
+<br><br>
+{% block content %}
+<h2>Your current Todos</h2>
+<ul>
+  {% for todo in todos %}
+  {% if todo.important %}
+  <b>
+  {% endif %}
+    <li>{{ todo.title }}</li>
+  {% if todo.important %}
+  </b>
+  {% endif %}
+  {% endfor %}
+</ul>
+{% endblock %}
