@@ -1,14 +1,14 @@
-<h1>Current Todos</h1>
+<h1>Completed Todos</h1>
 {% extends 'todo/base.html' %}
 <br><br>
 {% block content %}
-<h2>Your current Todos</h2>
+<h2>Your Completed Todos</h2>
 <ul>
   {% for todo in todos %}
   {% if todo.important %}
   <b>
   {% endif %}
-    <li><a href="{% url 'viewtodo' todo.id %}">{{ todo.title }}</a></li>
+    <li>{{ todo.title }}</li>
   {% if todo.memo %}
     <p>- {{ todo.memo }}</p>
   {% endif %}
