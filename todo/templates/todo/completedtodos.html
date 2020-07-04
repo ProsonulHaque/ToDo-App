@@ -8,10 +8,11 @@
   {% if todo.important %}
   <b>
   {% endif %}
-    <li>{{ todo.title }}</li>
+  <li><a href="{% url 'editcompletedtodo' todo.id %}">{{ todo.title }} - {{ todo.datecompleted }}</a></li>
   {% if todo.memo %}
     <p>- {{ todo.memo }}</p>
   {% endif %}
+  <br>
   {% if todo.important %}
   </b>
   {% endif %}

@@ -5,16 +5,21 @@
 <h2>Your current Todos</h2>
 <ul>
   {% for todo in todos %}
+
   {% if todo.important %}
   <b>
   {% endif %}
+
     <li><a href="{% url 'viewtodo' todo.id %}">{{ todo.title }}</a></li>
-  {% if todo.memo %}
-    <p>- {{ todo.memo }}</p>
-  {% endif %}
+
   {% if todo.important %}
   </b>
   {% endif %}
+
+  {% if todo.memo %}
+    <p>- {{ todo.memo }}</p>
+  {% endif %}
+
   {% endfor %}
 </ul>
 {% endblock %}

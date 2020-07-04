@@ -6,6 +6,7 @@ from django.contrib.auth import login, logout, authenticate
 from .forms import TodoForm
 from .models import Todo
 from django.utils import timezone
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def signupuser(request):
@@ -38,6 +39,7 @@ def loginuser(request):
             login(request, user)
             return redirect('currenttodos')
 
+@login_required
 def logoutuser(request):
     if request.method == 'POST':
         logout(request)
@@ -46,14 +48,17 @@ def logoutuser(request):
 def home(request):
     return render(request, 'todo/home.html')
 
+@login_required
 def currenttodos(request):
-    todos = Todo.objects.filter(user=request.user, datecompleted__isnull=True)
+    todos = Todo.objects.filter(user=request.user, datecompleted__isnull=True).order_by('-created')
     return render(request, 'todo/currenttodos.html', {'todos':todos})
 
+@login_required
 def completedtodos(request):
-    todos = Todo.objects.filter(user=request.user, datecompleted__isnull=False)
+    todos = Todo.objects.filter(user=request.user, datecompleted__isnull=False).order_by('-datecompleted')
     return render(request, 'todo/completedtodos.html', {'todos':todos})
 
+@login_required
 def createtodo(request):
     if request.method == 'GET':
         return render(request, 'todo/createtodo.html', {'form':TodoForm()})
@@ -67,6 +72,7 @@ def createtodo(request):
         except ValueError:
             return render(request, 'todo/createtodo.html', {'form':TodoForm(), 'error_msg':'Wrong input. Try again.'})
 
+@login_required
 def viewtodo(request, todo_pk):
     todo = get_object_or_404(Todo, pk=todo_pk, user=request.user)
     if request.method == 'GET':
@@ -83,6 +89,22 @@ def viewtodo(request, todo_pk):
         except ValueError:
             return render(request, 'todo/viewtodo.html', {'error_msg':todo})
 
+@login_required
+def editcompletedtodo(request, todo_pk):
+    todo = get_object_or_404(Todo, pk=todo_pk, user=request.user)
+    if request.method == 'GET':
+        try:
+            form = TodoForm(instance=todo)
+            return render(request, 'todo/editcompletedtodo.html', {'todo':todo, 'form':form})
+        except:
+            return render(request, 'todo/editcompletedtodo.html', {'error_msg':todo})
+    else:
+        todo.datecompleted = None
+        form = TodoForm(request.POST, instance=todo)
+        form.save()
+        return redirect('currenttodos')
+
+@login_required
 def todocompleted(request, todo_pk):
     todo = get_object_or_404(Todo, pk=todo_pk, user=request.user)
     if request.method == 'POST':
@@ -92,6 +114,7 @@ def todocompleted(request, todo_pk):
     else:
         return render(request, 'todo/viewtodo.html', {'error_msg':todo})
 
+@login_required
 def tododeleted(request, todo_pk):
     todo = get_object_or_404(Todo, pk=todo_pk, user=request.user)
     if request.method == 'POST':

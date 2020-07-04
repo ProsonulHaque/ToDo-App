@@ -1,18 +1,13 @@
-<h1>Todo Details & Update</h1>
+<h1>Edit Completed Todo</h1>
 {% extends 'todo/base.html' %}
 {% block content %}
 <h1>{{ todo.title }}</h1>
 <h2>{{ error_msg }}</h2>
 
-<form method="POST">
+<form method="POST" action="{% url 'editcompletedtodo' todo.id %}">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit" name="button">Update</button>
-</form>
-
-<form method="POST" action="{% url 'todocompleted' todo.id %}">
-    {% csrf_token %}
-    <button type="submit" name="button">Complete</button>
+    <button type="submit" name="button">Create Again</button>
 </form>
 
 <form method="POST" action="{% url 'tododeleted' todo.id %}">
