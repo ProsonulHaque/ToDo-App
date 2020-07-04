@@ -40,6 +40,12 @@ def loginuser(request):
             return redirect('currenttodos')
 
 @login_required
+def userprofile(request):
+    todos = Todo.objects.filter(user=request.user).order_by('-created')
+    return render(request, 'todo/userprofile.html', {'todos':todos})
+
+
+@login_required
 def logoutuser(request):
     if request.method == 'POST':
         logout(request)
@@ -67,6 +73,7 @@ def createtodo(request):
             form = TodoForm(request.POST)
             newtodo = form.save(commit=False)
             newtodo.user = request.user
+            newtodo.created = timezone.now()
             newtodo.save()
             return redirect('currenttodos')
         except ValueError:

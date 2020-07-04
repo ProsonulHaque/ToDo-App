@@ -1,21 +1,18 @@
-<h1>Completed Todos</h1>
-{% extends 'todo/base.html' %}
-<br><br>
+{% extends "todo/base.html" %}
+
 {% block content %}
-<h2>Your Completed Todos</h2>
-<ul>
-  {% for todo in todos %}
-  {% if todo.important %}
-  <b>
-  {% endif %}
-  <li><a href="{% url 'editcompletedtodo' todo.id %}">{{ todo.title }} - {{ todo.datecompleted }}</a></li>
-  {% if todo.memo %}
-    <p>- {{ todo.memo }}</p>
-  {% endif %}
-  <br>
-  {% if todo.important %}
-  </b>
-  {% endif %}
-  {% endfor %}
-</ul>
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-10">
+            <h1>Completed Todos</h1>
+        </div>
+    </div>
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-10">
+            <div class="list-group">
+                {% for todo in todos %}
+                    <a href="{% url 'editcompletedtodo' todo.id %}" class="list-group-item list-group-item-action{% if todo.important %} list-group-item-danger{% endif %}"><b>{{ todo.title }}</b> - Completed {{ todo.datecompleted|date:'M j Y H:i' }}</a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 {% endblock %}
