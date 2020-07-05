@@ -26,7 +26,7 @@ SECRET_KEY = '0iln0qc0fj8t6p$sd_!3d8i@8+5&hk-98mq7ea*bl7ghune#$t'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['prosonulhaque-todowoo-app.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = ['https://www.prosonulhaque-todowoo-app.herokuapp.com/']
 
 
 # Application definition
